@@ -25,6 +25,7 @@ CREATE TABLE `personal_info` (
 
 CREATE TABLE `education` (
   `id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id`     INT UNSIGNED  NOT NULL,
   `school`      VARCHAR(150)  NOT NULL,
   `department`  VARCHAR(150)  NOT NULL,
   `degree`      VARCHAR(80)   NOT NULL,
@@ -32,43 +33,52 @@ CREATE TABLE `education` (
   `end_year`    YEAR              NULL,
   `gpa`         DECIMAL(3,2)      NULL,
   `description` TEXT              NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `personal_info`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `jobs` (
   `id`           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id`      INT UNSIGNED  NOT NULL,
   `company`      VARCHAR(150)  NOT NULL,
   `position`     VARCHAR(150)  NOT NULL,
   `city`         VARCHAR(100)  NOT NULL,
   `start_date`   DATE          NOT NULL,
   `end_date`     DATE              NULL,
   `description`  TEXT              NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `personal_info`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `computer_skills` (
-  `id`         INT UNSIGNED   NOT NULL AUTO_INCREMENT,
-  `category`   VARCHAR(80)    NOT NULL,
-  `skill_name` VARCHAR(100)   NOT NULL,
+  `id`         INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  `user_id`    INT UNSIGNED     NOT NULL,
+  `category`   VARCHAR(80)      NOT NULL,
+  `skill_name` VARCHAR(100)     NOT NULL,
   `level`      TINYINT UNSIGNED NOT NULL DEFAULT 50,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `personal_info`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `hobbies` (
-  `id`    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `name`  VARCHAR(100)  NOT NULL,
-  `icon`  VARCHAR(50)       NULL,
-  PRIMARY KEY (`id`)
+  `id`      INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id` INT UNSIGNED  NOT NULL,
+  `name`    VARCHAR(100)  NOT NULL,
+  `icon`    VARCHAR(50)       NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `personal_info`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `certificates` (
-  `id`           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `name`         VARCHAR(200)  NOT NULL,
-  `issuer`       VARCHAR(150)  NOT NULL,
-  `issue_date`   DATE          NOT NULL,
-  `expiry_date`  DATE              NULL,
-  `credential_url` VARCHAR(255)    NULL,
-  PRIMARY KEY (`id`)
+  `id`             INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id`        INT UNSIGNED  NOT NULL,
+  `name`           VARCHAR(200)  NOT NULL,
+  `issuer`         VARCHAR(150)  NOT NULL,
+  `issue_date`     DATE          NOT NULL,
+  `expiry_date`    DATE              NULL,
+  `credential_url` VARCHAR(255)      NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `personal_info`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ============================================================
@@ -89,22 +99,16 @@ VALUES (
   NULL
 );
 
-INSERT INTO `education`
-  (`school`, `department`, `degree`, `start_year`, `end_year`, `gpa`, `description`)
-VALUES
-  ('İstanbul Teknik Üniversitesi', 'Siber Güvenlik Analistliği ve Operatörlüğü', 'Ön Lisans', 2024, NULL, NULL, NULL);
+INSERT INTO `education` (`user_id`, `school`, `department`, `degree`, `start_year`, `end_year`, `gpa`, `description`)
+VALUES (1, 'İstanbul Teknik Üniversitesi', 'Siber Güvenlik Analistliği ve Operatörlüğü', 'Ön Lisans', 2024, NULL, NULL, NULL);
 
-INSERT INTO `jobs`
-  (`company`, `position`, `city`, `start_date`, `end_date`, `description`)
-VALUES
-  ('—', 'Henüz iş deneyimi bulunmamaktadır.', 'İstanbul', '2024-01-01', '2024-01-01', NULL);
+INSERT INTO `jobs` (`user_id`, `company`, `position`, `city`, `start_date`, `end_date`, `description`)
+VALUES (1, '—', 'Henüz iş deneyimi bulunmamaktadır.', 'İstanbul', '2024-01-01', '2024-01-01', NULL);
 
-INSERT INTO `computer_skills`
-  (`category`, `skill_name`, `level`)
-VALUES
-  ('Programlama Dilleri', 'Python', 40);
+INSERT INTO `computer_skills` (`user_id`, `category`, `skill_name`, `level`)
+VALUES (1, 'Programlama Dilleri', 'Python', 40);
 
-INSERT INTO `hobbies` (`name`, `icon`) VALUES
-  ('Futbol', 'fa-futbol'),
-  ('Tenis',  'fa-table-tennis-paddle-ball');
+INSERT INTO `hobbies` (`user_id`, `name`, `icon`) VALUES
+  (1, 'Futbol', 'fa-futbol'),
+  (1, 'Tenis',  'fa-table-tennis-paddle-ball');
 
