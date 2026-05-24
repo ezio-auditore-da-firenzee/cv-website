@@ -1,0 +1,14 @@
+# Konfigürasyon (şifre içerebilir — paylaşmayın!)
+config.php
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Yüklenen dosyalar
+assets/uploads/

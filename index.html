@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahmet Alperen Arısoy — CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:     #0f0e11;
+      --paper:   #faf8f5;
+      --accent:  #c8403a;
+      --accent2: #e8b86d;
+      --muted:   #6b6673;
+      --border:  #e2ddd8;
+      --card:    #ffffff;
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'DM Sans', system-ui, sans-serif;
+      --radius:  10px;
+      --shadow:  0 4px 24px rgba(0,0,0,.07);
+      --trans:   .3s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--ff-body); font-weight: 400; line-height: 1.7; min-height: 100vh; }
+
+    #loader { position: fixed; inset: 0; background: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity .6s ease, visibility .6s ease; }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-ring { width: 56px; height: 56px; border: 3px solid rgba(255,255,255,.15); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+    .loader-text { color: rgba(255,255,255,.5); font-size: .85rem; margin-top: 16px; letter-spacing: .1em; text-transform: uppercase; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .page-wrap.visible { opacity: 1; transform: none; }
+
+    .hero { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; padding: 72px 0 56px; border-bottom: 2px solid var(--ink); }
+    .hero-eyebrow { font-size: .75rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .hero-name { font-family: var(--ff-head); font-size: clamp(2.8rem, 7vw, 5.5rem); line-height: 1; font-weight: 900; letter-spacing: -.02em; }
+    .hero-title { font-size: 1.15rem; font-weight: 300; color: var(--muted); margin-top: 10px; }
+    .hero-summary { max-width: 600px; color: var(--muted); font-size: .95rem; margin-top: 24px; line-height: 1.8; }
+    .hero-contacts { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 32px; }
+    .contact-chip { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 500; color: var(--ink); text-decoration: none; border: 1.5px solid var(--border); border-radius: 999px; padding: 6px 16px; transition: border-color var(--trans), color var(--trans), background var(--trans); }
+    .contact-chip:hover { border-color: var(--accent); color: var(--accent); background: #fef5f5; }
+    .contact-chip i { font-size: .8rem; }
+    .hero-photo-wrap { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--ink); overflow: hidden; flex-shrink: 0; background: var(--border); display: flex; align-items: center; justify-content: center; }
+    .hero-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-photo-wrap i { font-size: 3rem; color: var(--muted); }
+
+    nav { position: sticky; top: 0; background: rgba(250,248,245,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 100; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-link { display: flex; align-items: center; gap: 6px; padding: 14px 16px; font-size: .82rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: color var(--trans), border-color var(--trans); }
+    .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .section { padding: 64px 0 0; }
+    .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; }
+    .section-title { font-family: var(--ff-head); font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; line-height: 1.1; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    .timeline { display: flex; flex-direction: column; gap: 24px; }
+    .timeline-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; transition: transform var(--trans), box-shadow var(--trans); position: relative; overflow: hidden; }
+    .timeline-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); opacity: 0; transition: opacity var(--trans); }
+    .timeline-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,.11); }
+    .timeline-card:hover::before { opacity: 1; }
+    .tc-org { font-size: 1.15rem; font-weight: 600; grid-column: 1; }
+    .tc-role { font-size: .95rem; color: var(--accent); font-weight: 500; grid-column: 1; }
+    .tc-date { font-size: .8rem; font-weight: 600; color: var(--muted); grid-column: 2; grid-row: 1 / 3; text-align: right; white-space: nowrap; padding-top: 4px; }
+    .tc-desc { font-size: .9rem; color: var(--muted); grid-column: 1 / -1; margin-top: 8px; line-height: 1.75; }
+    .tc-badge { display: inline-block; background: #f0faf0; color: #2e7d32; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; border: 1px solid #a5d6a7; vertical-align: middle; margin-left: 8px; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .skill-group { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .skill-group-title { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .skill-item { margin-bottom: 14px; }
+    .skill-item:last-child { margin-bottom: 0; }
+    .skill-label { display: flex; justify-content: space-between; font-size: .88rem; font-weight: 500; margin-bottom: 6px; }
+    .skill-pct { color: var(--muted); font-size: .8rem; }
+    .skill-bar-bg { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+    .hobbies-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hobby-chip { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 10px 20px; font-size: .9rem; font-weight: 500; transition: all var(--trans); box-shadow: var(--shadow); }
+    .hobby-chip:hover { border-color: var(--accent2); background: #fffbf3; transform: translateY(-2px); }
+    .hobby-chip i { color: var(--accent); font-size: .85rem; }
+
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .cert-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: transform var(--trans), box-shadow var(--trans); }
+    .cert-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,.11); }
+    .cert-icon { width: 44px; height: 44px; background: #fff5f5; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.1rem; margin-bottom: 14px; }
+    .cert-name { font-size: 1rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+    .cert-issuer { font-size: .85rem; color: var(--muted); font-weight: 500; }
+    .cert-date { font-size: .8rem; color: var(--muted); margin-top: 10px; }
+    .no-data { color: var(--muted); font-size: .95rem; font-style: italic; padding: 20px 0; }
+
+    footer { text-align: center; padding: 48px 0 0; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 72px; }
+    footer strong { color: var(--ink); }
+
+    .error-box { background: #fff5f5; border: 1px solid #fcc; border-radius: var(--radius); padding: 24px; color: #b00; font-size: .9rem; }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; padding: 40px 0 32px; }
+      .hero-photo-wrap { order: -1; width: 100px; height: 100px; }
+      .timeline-card { grid-template-columns: 1fr; }
+      .tc-date { grid-column: 1; grid-row: auto; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-ring"></div>
+  <p class="loader-text">Yükleniyor…</p>
+</div>
+
+<nav id="main-nav" style="display:none;">
+  <div class="nav-inner">
+    <a href="#personal"     class="nav-link active"><i class="fa fa-user"></i> Hakkımda</a>
+    <a href="#education"    class="nav-link"><i class="fa fa-graduation-cap"></i> Eğitim</a>
+    <a href="#jobs"         class="nav-link"><i class="fa fa-briefcase"></i> Deneyim</a>
+    <a href="#skills"       class="nav-link"><i class="fa fa-laptop-code"></i> Beceriler</a>
+    <a href="#hobbies"      class="nav-link"><i class="fa fa-heart"></i> Hobiler</a>
+    <a href="#certificates" class="nav-link"><i class="fa fa-certificate"></i> Sertifikalar</a>
+  </div>
+</nav>
+
+<div class="page-wrap" id="app"></div>
+
+<script>
+const API_URL = 'data.php';
+
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function fmtDate(d) {
+  if (!d) return 'Halen';
+  const [y, m] = d.split('-');
+  const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+  return `${months[parseInt(m,10)-1]} ${y}`;
+}
+
+function renderPersonal(p) {
+  return `
+  <section class="section" id="personal">
+    <div class="hero">
+      <div class="hero-left">
+        <p class="hero-eyebrow"><i class="fa fa-map-marker-alt"></i> ${esc(p.city)}</p>
+        <h1 class="hero-name">${esc(p.full_name)}</h1>
+        <p class="hero-title">${esc(p.title)}</p>
+        ${p.summary ? `<p class="hero-summary">${esc(p.summary)}</p>` : ''}
+        <div class="hero-contacts">
+          <a href="mailto:${esc(p.email)}" class="contact-chip"><i class="fa fa-envelope"></i> ${esc(p.email)}</a>
+          <a href="tel:${esc(p.phone)}" class="contact-chip"><i class="fa fa-phone"></i> ${esc(p.phone)}</a>
+          ${p.linkedin ? `<a href="${esc(p.linkedin)}" target="_blank" class="contact-chip"><i class="fab fa-linkedin-in"></i> LinkedIn</a>` : ''}
+          ${p.github ? `<a href="${esc(p.github)}" target="_blank" class="contact-chip"><i class="fab fa-github"></i> GitHub</a>` : ''}
+        </div>
+      </div>
+      <div class="hero-photo-wrap"><i class="fa fa-user"></i></div>
+    </div>
+  </section>`;
+}
+
+function renderEducation(list) {
+  const cards = list.map(e => `
+    <div class="timeline-card">
+      <p class="tc-org">${esc(e.school)}</p>
+      <p class="tc-role">${esc(e.department)} · ${esc(e.degree)}</p>
+      <p class="tc-date">${e.start_year} – ${e.end_year ?? '<span class="tc-badge">Devam Ediyor</span>'}</p>
+      ${e.description ? `<p class="tc-desc">${esc(e.description)}</p>` : ''}
+    </div>`).join('');
+  return `
+  <section class="section" id="education">
+    <div class="section-header"><h2 class="section-title">Eğitim</h2><div class="section-line"></div></div>
+    <div class="timeline">${cards}</div>
+  </section>`;
+}
+
+function renderJobs(list) {
+  const isEmpty = list.length === 1 && list[0].company === '—';
+  if (isEmpty) {
+    return `
+    <section class="section" id="jobs">
+      <div class="section-header"><h2 class="section-title">İş Deneyimi</h2><div class="section-line"></div></div>
+      <p class="no-data">Henüz iş deneyimi bulunmamaktadır.</p>
+    </section>`;
+  }
+  const cards = list.map(j => `
+    <div class="timeline-card">
+      <p class="tc-org">${esc(j.company)} <small style="color:var(--muted);font-weight:400;font-size:.85rem;">· ${esc(j.city)}</small></p>
+      <p class="tc-role">${esc(j.position)}</p>
+      <p class="tc-date">${fmtDate(j.start_date)} – ${j.end_date ? fmtDate(j.end_date) : '<span class="tc-badge">Aktif</span>'}</p>
+      ${j.description ? `<p class="tc-desc">${esc(j.description)}</p>` : ''}
+    </div>`).join('');
+  return `
+  <section class="section" id="jobs">
+    <div class="section-header"><h2 class="section-title">İş Deneyimi</h2><div class="section-line"></div></div>
+    <div class="timeline">${cards}</div>
+  </section>`;
+}
+
+function renderSkills(groups) {
+  const groupHTML = Object.entries(groups).map(([cat, skills]) => `
+    <div class="skill-group">
+      <p class="skill-group-title">${esc(cat)}</p>
+      ${skills.map(s => `
+        <div class="skill-item">
+          <div class="skill-label"><span>${esc(s.skill_name)}</span><span class="skill-pct">%${s.level}</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="${s.level}"></div></div>
+        </div>`).join('')}
+    </div>`).join('');
+  return `
+  <section class="section" id="skills">
+    <div class="section-header"><h2 class="section-title">Bilgisayar Bilgisi</h2><div class="section-line"></div></div>
+    <div class="skills-grid">${groupHTML}</div>
+  </section>`;
+}
+
+function renderHobbies(list) {
+  const chips = list.map(h => `
+    <div class="hobby-chip"><i class="fa ${esc(h.icon ?? 'fa-star')}"></i><span>${esc(h.name)}</span></div>`).join('');
+  return `
+  <section class="section" id="hobbies">
+    <div class="section-header"><h2 class="section-title">Hobiler</h2><div class="section-line"></div></div>
+    <div class="hobbies-grid">${chips}</div>
+  </section>`;
+}
+
+function renderCertificates(list) {
+  if (!list || list.length === 0) {
+    return `
+    <section class="section" id="certificates">
+      <div class="section-header"><h2 class="section-title">Sertifikalar</h2><div class="section-line"></div></div>
+      <p class="no-data">Henüz sertifika bulunmamaktadır.</p>
+    </section>`;
+  }
+  const cards = list.map(c => `
+    <div class="cert-card">
+      <div class="cert-icon"><i class="fa fa-certificate"></i></div>
+      <p class="cert-name">${esc(c.name)}</p>
+      <p class="cert-issuer">${esc(c.issuer)}</p>
+      <p class="cert-date"><i class="fa fa-calendar-alt" style="margin-right:4px;"></i>${fmtDate(c.issue_date)}</p>
+    </div>`).join('');
+  return `
+  <section class="section" id="certificates">
+    <div class="section-header"><h2 class="section-title">Sertifikalar</h2><div class="section-line"></div></div>
+    <div class="cert-grid">${cards}</div>
+  </section>`;
+}
+
+function animateBars() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.width = e.target.dataset.width + '%'; io.unobserve(e.target); }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.skill-bar-fill').forEach(b => io.observe(b));
+}
+
+function initNavSpy() {
+  const sections = document.querySelectorAll('.section[id]');
+  const links = document.querySelectorAll('.nav-link');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55%' });
+  sections.forEach(s => io.observe(s));
+}
+
+async function main() {
+  const app = document.getElementById('app');
+  const loader = document.getElementById('loader');
+  const nav = document.getElementById('main-nav');
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    app.innerHTML =
+      renderPersonal(data.personal) +
+      renderEducation(data.education) +
+      renderJobs(data.jobs) +
+      renderSkills(data.skills) +
+      renderHobbies(data.hobbies) +
+      renderCertificates(data.certificates) +
+      `<footer><p>© ${new Date().getFullYear()} <strong>${esc(data.personal.full_name)}</strong> · PHP + MySQL ile geliştirildi</p></footer>`;
+    loader.classList.add('hidden');
+    nav.style.display = '';
+    requestAnimationFrame(() => { app.classList.add('visible'); animateBars(); initNavSpy(); });
+  } catch (err) {
+    loader.classList.add('hidden');
+    app.classList.add('visible');
+    app.innerHTML = `<div class="error-box" style="margin-top:60px;">
+      <strong>⚠️ Veri yüklenemedi.</strong><br><code>${esc(err.message)}</code><br><br>
+      <ul style="margin-left:20px;margin-top:8px;line-height:2">
+        <li><code>config.php</code> dosyasında veritabanı bilgilerini kontrol edin.</li>
+        <li><code>cv_database.sql</code> dosyasını MySQL'e import edin.</li>
+        <li>PHP sunucusunun çalıştığından emin olun.</li>
+      </ul>
+    </div>`;
+  }
+}
+main();
+</script>
+</body>
+</html>
