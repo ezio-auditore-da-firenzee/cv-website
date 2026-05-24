@@ -83,17 +83,16 @@ VALUES (
   'İstanbul',
   'ahmetalperenarisoy@gmail.com',
   '+90 536 712 41 12',
-  'https://www.linkedin.com/in/ahmet-alperen-arısoy-0b9b7035b/',
+  'https://www.linkedin.com/in/ahmet-alperen-ar%C4%B1soy-0b9b7035b/',
   'https://github.com/ezio-auditore-da-firenzee',
-  'Siber güvenlik analistliği ve operatörlüğü öğrencisiyim. Ağ güvenliği, sistem analizi ve siber tehdit yönetimi alanlarında kendimi geliştirmeye devam ediyorum.',
+  'Küçüklüğümden beri teknolojinin içinde büyüdüm. Hacking videoları ve etik hacklemeyle tanıştım, bu merak beni siber güvenlik alanına yöneltti. İTÜ Infosec kulübünde başkan yardımcısı olarak görev yaptım.',
   NULL
 );
 
 INSERT INTO `education`
   (`school`, `department`, `degree`, `start_year`, `end_year`, `gpa`, `description`)
 VALUES
-  ('İstanbul Teknik Üniversitesi', 'Siber Güvenlik Analistliği ve Operatörlüğü', 'Ön Lisans', 2024, NULL, NULL,
-   'Siber güvenlik alanında analiz ve operasyon odaklı eğitim almaktayım.');
+  ('İstanbul Teknik Üniversitesi', 'Siber Güvenlik Analistliği ve Operatörlüğü', 'Ön Lisans', 2024, NULL, NULL, NULL);
 
 INSERT INTO `jobs`
   (`company`, `position`, `city`, `start_date`, `end_date`, `description`)
@@ -106,6 +105,6 @@ VALUES
   ('Programlama Dilleri', 'Python', 40);
 
 INSERT INTO `hobbies` (`name`, `icon`) VALUES
-  ('Futbol Oynamak', 'fa-futbol'),
-  ('Futbol İzlemek',  'fa-tv');
+  ('Futbol', 'fa-futbol'),
+  ('Tenis',  'fa-table-tennis-paddle-ball');
 
